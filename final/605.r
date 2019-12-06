@@ -4,11 +4,16 @@ args = (commandArgs(trailingOnly=TRUE))
 if(length(args) == 1){
   a = as.numeric(args[1])
 } else {
-  cat('usage: Rscript myscript.R <a> <b> <output file>', file=stderr())
+  cat(args,'usage: Rscript myscript.R <a> <b> <output file>', file=stderr())
   stop()
 }
 library(MASS)
-data = read.csv(paste('datadump_s5-00',a,'.csv',sep=''))
+if(a < 10){
+data = read.csv(paste('csv/datadump_s5-00',a,'.csv',sep=''))
+}else{
+data = read.csv(paste('csv/datadump_s5-0',a,'.csv',sep=''))
+}
+
 datacon=data[,c('winrole','gamemode','mapname','operator','primaryweapon','haswon','objectivelocation','primarygrip','primaryunderbarrel','primarybarrel','secondaryweapontype')]
 data_1 = datacon[datacon['haswon']==1,]
 count_role_mode = table(data_1$winrole,data_1$gamemode)
